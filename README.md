@@ -29,7 +29,7 @@ spec:
 ```
 _apiVersion_ can either be _v1_ or _apps/v1_ depending on the kubernetes object type.
 
-## POD's
+## Pod's
 
 Can have 1 or more containers, configuration example:
 
@@ -84,3 +84,96 @@ spec:
    - **spec**: Outlines the specifications of the pods, including containers, volumes, and other settings.
 
 <span style="font-size: larger;">Create and run: <code>kubectl apply -f replicaset-example.yml</code></span>
+
+## Deployment's
+Same structure as ReplicaSet but with a different kind:
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: example-pod
+  template:
+    metadata:
+      labels:
+        app: example-pod
+    spec:
+      containers:
+      - name: example-container
+        image: nginx:latest
+```
+<span style="font-size: larger;">Create and run: <code>kubectl create -f deployment-example.yml</code></span>
+
+This deployment comes with a static replicaset configuration. 
+
+### Auto Scaling in Kubernetes:
+
+Under spec/container configure the following properties:
+
+```yaml
+resources:
+  requests:
+    cpu: 100m  # 100 millicores (mCPU) request
+  limits:
+    cpu: 200m  # 200 millicores (mCPU) limit
+```
+
+Create a HorizontalPodAutoscaler:
+```yaml
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: example-deployment
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50  # target CPU utilization percentage
+```
+
+Explanation:
+
+The HorizontalPodAutoscaler (HPA) targets a CPU usage -> 50% of 100m (the value in the deployment under resources.requests.cpu)
+- If the actual CPU usage per Pod exceeds 50 millicores, the HPA interprets this as the Pod being under high load and scales up.  
+- If the CPU usage is below 50 millicores, the HPA might scale down (reduce the number of Pods).
+
+### RollingUpdate
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.17.1
+        ports:
+        - containerPort: 80
+```
+
+1. **Start Update**: When an update to the Deployment is initiated (for example, changing the Docker image version), Kubernetes starts by creating an additional new Pod (because of `maxSurge: 1`) if there is sufficient capacity.
+2. **Remove Old Pod**: Once the new Pod is up and running (ready to serve traffic), Kubernetes then terminates one of the old Pods (maintaining the limit set by `maxUnavailable`).
+3. **Progressively Update**: This process repeats for each Pod in the Deployment until all Pods are updated to the new version.
+
