@@ -146,6 +146,8 @@ The HorizontalPodAutoscaler (HPA) targets a CPU usage -> 50% of 100m (the value 
 
 ### RollingUpdate
 
+Used for handling updates or newer versions of containers:
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
