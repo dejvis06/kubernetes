@@ -71,7 +71,7 @@ spec:
       - name: example-container
         image: nginx:latest
 ```
-### Explanation of the Top-Level `spec` in ReplicaSet
+### Explanation of the top-level `spec` in ReplicaSet
 
 1. **replicas**: Specifies the desired number of pod instances that should be running at all times
 
