@@ -227,3 +227,30 @@ spec:
   -  This is where the application inside the pod is actually listening.
 
 These two properties ensure that traffic arriving at the service's `port` is correctly directed to the `targetPort` on the pods that match the service's selector. 
+
+### LoadBalancer
+
+Acts like a front service between the client and the cluster instances for balancing the load:
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: multi-port-loadbalancer
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+      nodePort: 30080
+    - name: https
+      port: 443
+      targetPort: 8443
+      nodePort: 30443
+    - name: metrics
+      port: 9100
+      targetPort: 9100
+      nodePort: 30100
+  selector:
+    app: myapp
+```
