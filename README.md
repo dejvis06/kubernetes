@@ -179,3 +179,25 @@ spec:
 2. **Remove Old Pod**: Once the new Pod is up and running (ready to serve traffic), Kubernetes then terminates one of the old Pods (maintaining the limit set by `maxUnavailable`).
 3. **Progressively Update**: This process repeats for each Pod in the Deployment until all Pods are updated to the new version.
 
+## Service
+
+### NodePort
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-nodeport-service
+spec:
+  type: NodePort
+  selector:
+    app: example-pod
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30007
+```
+- **port**: The port on which the service is exposed internally within the cluster. 
+- **targetPort**: The port on the pod to which the service routes the traffic. This is where the application inside the pod is listening.
+- **nodePort**: The port on each node's external IP at which the service can be accessed from outside the cluster. Traffic sent to this port is forwarded to the port of the service, which then routes to targetPort on the pods.
+
