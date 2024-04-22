@@ -201,3 +201,4 @@ spec:
 - **targetPort**: The port on the pod to which the service routes the traffic. This is where the application inside the pod is listening.
 - **nodePort**: The port on each node's external IP at which the service can be accessed from outside the cluster. Traffic sent to this port is forwarded to the port of the service, which then routes to targetPort on the pods.
 
+<code>kubectl create -f service-nodeport.yml</code></span>
