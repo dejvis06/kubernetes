@@ -202,3 +202,28 @@ spec:
 - **nodePort**: The port on each node's external IP at which the service can be accessed from outside the cluster. Traffic sent to this port is forwarded to the port of the service, which then routes to targetPort on the pods.
 
 <code>kubectl create -f service-nodeport.yml</code></span>
+
+### ClusterIP
+
+A **ClusterIP** service is used for internal cluster communication. More suitable for management (for example load balancing, directing the request to another pod in case of failure) in dynamic environments (pod replication, failure or rollbacks), serving as a single point of entry with pre configured dns name.
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: example-pod
+```
+- **port**: 
+  - This is the port on which the service is exposed within the cluster.
+
+- **targetPort**: 
+  -  This is where the application inside the pod is actually listening.
+
+These two properties ensure that traffic arriving at the service's `port` is correctly directed to the `targetPort` on the pods that match the service's selector. 
