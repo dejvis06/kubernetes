@@ -254,3 +254,49 @@ spec:
   selector:
     app: myapp
 ```
+
+## Kubernetes Pod Scheduling: Anti-Affinity
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+spec:
+  replicas: 3  # Ensure you have at least as many nodes as replicas
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: "app"
+                    operator: In
+                    values:
+                    - my-app
+              topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: my-container
+        image: nginx
+```
+
+The `affinity` field in the PodSpec allows you to set rules that affect how pods are scheduled in relation to other pods. These rules can either attract pods to each other (affinity) or repel them (anti-affinity).
+
+### `podAntiAffinity.requiredDuringSchedulingIgnoredDuringExecution.labelSelector.matchExpressions`
+
+This specifies rules that tell the Kubernetes scheduler to avoid placing the pod on a node where certain conditions are true regarding other pods on that node. It aims to place the pod such that it is not co-located with certain other pods, based on their labels.
+
+- **Key**: For example, `"app"` refers to the label key based on which pods will be identified.
+- **Operator**: In this example, `In`, which means the rule applies if the label's value for the key matches any in the specified list.
+- **Values**: Here, it matches pods that have a label `app=my-app`.
+
+### `topologyKey`
+
+The scheduler ensures that pods with the same identifying labels (based on your anti-affinity rules) are not placed on nodes (kubernetes.io/hostname) that have the same hostname values.
