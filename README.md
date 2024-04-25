@@ -316,3 +316,21 @@ This specifies rules that tell the Kubernetes scheduler to avoid placing the pod
 ### `topologyKey`
 
 The scheduler ensures that pods with the same identifying labels (based on your anti-affinity rules) are not placed on nodes (kubernetes.io/hostname) that have the same hostname values.
+
+### Voting App
+
+#### Architecture
+![Architecture Diagram](https://raw.githubusercontent.com/dockersamples/example-voting-app/main/architecture.excalidraw.png "Architecture Diagram of Voting App")
+
+- A front-end web app in Python which lets you vote between two options
+- A Redis which collects new votes
+- A .NET worker which consumes votes and stores them in a Postgres database backed by a Docker volume
+- A Postgres database backed by a Docker volume
+- A Node.js web app which shows the results of the voting in real time
+
+
+#### Run
+```bash
+kubectl create -f voting-app/
+```
+
