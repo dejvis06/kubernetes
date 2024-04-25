@@ -15,6 +15,9 @@ Repository used for learning about Kubernetes
   - [ClusterIP](#clusterip)
   - [LoadBalancer](#loadbalancer)
 - [Kubernetes Pod Scheduling: Anti-Affinity](#kubernetes-pod-scheduling-anti-affinity)
+- [Voting App](#voting-app)
+  - [Architecture](#architecture)
+  - [Run](#run)
 
 
 ## Lens IDE for Kubernetes
