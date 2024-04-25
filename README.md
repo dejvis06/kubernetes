@@ -1,6 +1,22 @@
 # kubernetes-learning
 Repository used for learning about Kubernetes
 
+## Contents
+- [Lens IDE for Kubernetes](#lens-ide-for-kubernetes)
+- [Minikube](#minikube)
+- [Kubernetes Objects Template Structure](#kubernetes-objects-template-structure)
+- [Pods](#pods)
+- [ReplicaSet](#replicaset)
+- [Deployments](#deployments)
+- [Auto Scaling in Kubernetes](#auto-scaling-in-kubernetes)
+- [RollingUpdate](#rollingupdate)
+- [Services](#services)
+  - [NodePort](#nodeport)
+  - [ClusterIP](#clusterip)
+  - [LoadBalancer](#loadbalancer)
+- [Kubernetes Pod Scheduling: Anti-Affinity](#kubernetes-pod-scheduling-anti-affinity)
+
+
 ## Lens IDE for Kubernetes
 [Download and install Kubernetes Lens](https://k8slens.dev/)
 
