@@ -1,5 +1,5 @@
 # kubernetes-learning
-Repository used for learning about Kubernetes
+Repository used for learning about Kubernetes. <br> It starts with basic kubernetes objects and it also contains a lightweight microservices architecture (Voting App).
 
 ## Contents
 - [Lens IDE for Kubernetes](#lens-ide-for-kubernetes)
