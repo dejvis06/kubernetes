@@ -18,6 +18,7 @@ Repository used for learning about Kubernetes. <br> It starts with kubernetes ob
 - [Voting App](#voting-app)
   - [Architecture](#architecture)
   - [Run](#run)
+  - [Delete](#delete)
 
 
 ## Lens IDE for Kubernetes
@@ -337,3 +338,7 @@ The scheduler ensures that pods with the same identifying labels (based on your 
 kubectl create -f voting-app/
 ```
 
+#### Delete
+```bash
+kubectl delete -f voting-app/
+```
