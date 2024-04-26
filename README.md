@@ -1,4 +1,4 @@
-# kubernetes-learning
+# Introduction
 Repository starts with kubernetes objects and it also contains a lightweight microservices architecture (Voting App).
 
 ## Contents
